@@ -6,7 +6,7 @@ export default class Search extends React.Component {
     super();
     this.state = {
       input: '',
-    }
+    };
   }
 
   handleInput = (event) => {
@@ -14,6 +14,7 @@ export default class Search extends React.Component {
       input: event.target.value,
     });
   };
+
   render() {
     const { input } = this.state;
     const minInput = 2;

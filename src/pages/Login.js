@@ -12,7 +12,7 @@ export default class Login extends React.Component {
       isRedirect: false,
     };
   }
-  
+
   handleInput = (event) => {
     this.setState({
       input: event.target.value,
