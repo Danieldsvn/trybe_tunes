@@ -1,4 +1,6 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
+import Loading from '../components/Loading';
 import { createUser } from '../services/userAPI';
 
 export default class Login extends React.Component {
@@ -6,19 +8,14 @@ export default class Login extends React.Component {
     super();
     this.state = {
       input: '',
-      // entryButton: false,
+      isLoading: false,
+      isRedirect: false,
     };
   }
 
-  // componentDidUpdate({ entryButton }) {
+  componentDidMount() {
 
-  // }
-
-  // handleEntryButton = () => {
-  //   this.setState({
-  //     entryButton: true,
-  //   });
-  // }
+  }
 
   handleInput = (event) => {
     this.setState({
@@ -26,10 +23,22 @@ export default class Login extends React.Component {
     });
   };
 
-  render() {
+  handleClick = async () => {
     const { input } = this.state;
+    this.setState({
+      isLoading: true,
+    });
+    await createUser({ name: input });
+    this.setState({
+      isLoading: false,
+      isRedirect: true,
+    });
+  }
+
+  render() {
+    const { input, isLoading, isRedirect } = this.state;
     const minInput = 3;
-    return (
+    const inputButton = (
       <form data-testid="page-login">
         <input
           onChange={ this.handleInput }
@@ -38,16 +47,20 @@ export default class Login extends React.Component {
           type="text"
         />
         <button
-          onClick={ createUser({ name: input }) }
+          onClick={ this.handleClick }
           type="submit"
           disabled={ input.length < minInput }
           data-testid="login-submit-button"
         >
           Entrar
         </button>
-
       </form>
-
+    );
+    return (
+      <div>
+        { isLoading ? <Loading /> : inputButton }
+        { isRedirect && <Redirect to="/search" /> }
+      </div>
     );
   }
 }
