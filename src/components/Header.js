@@ -12,24 +12,19 @@ export default class Header extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.handleGetUser;
-  }
-
+  
   handleGetUser = async () => {
     this.setState({
       isLoading: true,
-    })
-    await getUser()
-    const userName = readUser();
+    });  
+    const userName = await getUser();
     this.setState({
       isLoading: false,
       userName: userName,
-    })    
+    });    
   }
   render() {
-    const { isLoading, userName } = this.state;
-    this.handleGetUser()
+    const { isLoading, userName } = this.state;    
     return (      
       <div data-testid="header-component">
         { isLoading ? <Loading /> : <div>
