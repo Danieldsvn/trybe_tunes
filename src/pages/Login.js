@@ -6,8 +6,19 @@ export default class Login extends React.Component {
     super();
     this.state = {
       input: '',
+      // entryButton: false,
     };
   }
+
+  // componentDidUpdate({ entryButton }) {
+
+  // }
+
+  // handleEntryButton = () => {
+  //   this.setState({
+  //     entryButton: true,
+  //   });
+  // }
 
   handleInput = (event) => {
     this.setState({
@@ -19,7 +30,7 @@ export default class Login extends React.Component {
     const { input } = this.state;
     const minInput = 3;
     return (
-      <form onSubmit={ createUser({ name: input }) } data-testid="page-login">
+      <form data-testid="page-login">
         <input
           onChange={ this.handleInput }
           value={ input }
@@ -27,6 +38,7 @@ export default class Login extends React.Component {
           type="text"
         />
         <button
+          onClick={ createUser({ name: input }) }
           type="submit"
           disabled={ input.length < minInput }
           data-testid="login-submit-button"

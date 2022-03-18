@@ -6,6 +6,7 @@ export default class Search extends React.Component {
     return (
       <div data-testid="page-search">
         <Header />
+        <form />
       </div>
     );
   }
