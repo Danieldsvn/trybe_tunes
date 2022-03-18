@@ -1,11 +1,16 @@
 import React from 'react';
 import Header from '../components/Header';
+import Loading from '../components/Loading';
+import { searchAlbunsAPIs } from '../services/searchAlbumsAPI'
 
 export default class Search extends React.Component {
   constructor() {
     super();
     this.state = {
       input: '',
+      isLoading: false,
+      searchResult: undefined,
+      artist: '',
     };
   }
 
@@ -15,28 +20,51 @@ export default class Search extends React.Component {
     });
   };
 
-  render() {
+  handleClick = async () => {
     const { input } = this.state;
+    const artist = input;
+    this.setState({
+      isLoading: true,
+    });
+    const searchResult = await searchAlbunsAPIs(input);
+    this.setState({
+      input: '',
+      isLoading: false,
+      searchResult: searchResult,
+      artist: artist,
+    });
+  }  
+  render() {
+    const { input, isLoading, searchResult, artist } = this.state;
     const minInput = 2;
+    const inputButton = (
+      <form>
+      <input
+        onChange={ this.handleInput }
+        value={ input }
+        data-testid="search-artist-input"
+        type="text"
+      />
+      <button
+        onClick={ this.handleClick }
+        type="submit"
+        disabled={ input.length < minInput }
+        data-testid="search-artist-button"
+      >
+        Pesquisar
+      </button>
+    </form>
+    )
+    const search = (
+      <h3>{`Resultado de álbuns de: ${artist}`}</h3>
+    )
     return (
       <div data-testid="page-search">
         <Header />
-        <form>
-          <input
-            onChange={ this.handleInput }
-            value={ input }
-            data-testid="search-artist-input"
-            type="text"
-          />
-          <button
-            onClick={ this.handleClick }
-            type="submit"
-            disabled={ input.length < minInput }
-            data-testid="search-artist-button"
-          >
-            Pesquisar
-          </button>
-        </form>
+        <div>
+          { isLoading ? <Loading /> : inputButton}
+          { !isLoading && searchResult ? : }
+        </div>
       </div>
     );
   }
