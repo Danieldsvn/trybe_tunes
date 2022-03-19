@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import AlbumCard from '../components/AlbumCard';
 import Loading from '../components/Loading';
+import { addSong } from '../services/favoriteSongsAPI';
 
 export default class Album extends React.Component {
   constructor() {
@@ -13,6 +14,7 @@ export default class Album extends React.Component {
       songsRequested: [],
       artistName: '',
       albumName: '',
+      isChecked: false,
     };
   }
 
@@ -35,6 +37,18 @@ export default class Album extends React.Component {
     });
   }
 
+  // handleAddSong = async () => {
+    
+  // }
+
+  handleFavoriteCheck = async () => {
+    this.setState({
+      isChecked: true,
+      isLoading: true,
+    });
+    const favoriteSong = await addSong()
+  }
+
   render() {
     const { isLoading, songsRequested, artistName, albumName } = this.state;
     return (
@@ -46,6 +60,8 @@ export default class Album extends React.Component {
         { isLoading ? <Loading /> : songsRequested.map((song) => (
           <AlbumCard
             key={ song.trackId }
+            trackId={ song.trackId }
+            isChecked={ true && this.handleFavoriteCheck }
             trackName={ song.trackName }
             previewUrl={ song.previewUrl }
           />
