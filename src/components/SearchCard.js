@@ -4,9 +4,8 @@ import { Link } from 'react-router-dom';
 
 export default class SearchCard extends React.Component {
   render() {
-    const { artistId, artistName, collectionId,
-      collectionName, collectionPrice, imgUrl,
-      releaseDate, trackCount } = this.props;
+    const { artistName, collectionId,
+      collectionName, imgUrl } = this.props;
     return (
       <Link
         data-testid={ `link-to-album-${collectionId}` }

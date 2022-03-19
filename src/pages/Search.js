@@ -23,7 +23,7 @@ export default class Search extends React.Component {
   };
 
   handleClick = async () => {
-    const { input, searchResult, isLoading } = this.state;
+    const { input } = this.state;
     const artist = input;
     this.setState({
       isLoading: true,
@@ -34,16 +34,8 @@ export default class Search extends React.Component {
       isLoading: false,
       searchResult: search,
       artist,
-    }, this.handleRenderCard());
-  }
-
-  handleRenderCard = () => {
-    const { searchResult, isLoading } = this.state;
-    if (searchResult === true && isLoading === false) {
-      this.setState({
-        renderCard: true,
-      });
-    }
+      renderCard: true,
+    });
   }
 
   render() {
@@ -75,6 +67,8 @@ export default class Search extends React.Component {
       <div data-testid="page-search">
         <Header />
         <div>
+          { isLoading ? <Loading /> : inputButton }
+          { renderCard && searchTitle }
           { renderCard && searchResult.map((album) => (
             <SearchCard
               key={ album.collectionId }
@@ -84,7 +78,6 @@ export default class Search extends React.Component {
               artistName={ album.artistName }
             />
           )) }
-          { isLoading ? <Loading /> : inputButton }
         </div>
       </div>
     );
