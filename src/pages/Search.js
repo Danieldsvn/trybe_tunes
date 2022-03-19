@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
+import SearchCard from '../components/SearchCard';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
 
 export default class Search extends React.Component {
@@ -11,6 +12,7 @@ export default class Search extends React.Component {
       isLoading: false,
       searchResult: undefined,
       artist: '',
+      renderCard: false,
     };
   }
 
@@ -21,22 +23,32 @@ export default class Search extends React.Component {
   };
 
   handleClick = async () => {
-    const { input } = this.state;
+    const { input, searchResult, isLoading } = this.state;
     const artist = input;
     this.setState({
       isLoading: true,
     });
-    const searchResult = await searchAlbumsAPI(input);
+    const search = await searchAlbumsAPI(input);
     this.setState({
       input: '',
       isLoading: false,
-      searchResult,
+      searchResult: search,
       artist,
-    });
+    }, this.handleRenderCard());
+  }
+
+  handleRenderCard = () => {
+    const { searchResult, isLoading } = this.state;
+    if (searchResult === true && isLoading === false) {
+      this.setState({
+        renderCard: true,
+      });
+    }
   }
 
   render() {
-    const { input, isLoading, searchResult, artist } = this.state;
+    const { input, isLoading, searchResult,
+      artist, renderCard } = this.state;
     const minInput = 2;
     const inputButton = (
       <form>
@@ -56,15 +68,23 @@ export default class Search extends React.Component {
         </button>
       </form>
     );
-    const search = (
+    const searchTitle = (
       <h3>{`Resultado de álbuns de: ${artist}`}</h3>
     );
     return (
       <div data-testid="page-search">
         <Header />
         <div>
-          { isLoading ? <Loading /> : inputButton}
-          {/* { !isLoading && searchResult ? : } */}
+          { renderCard && searchResult.map((album) => (
+            <SearchCard
+              key={ album.collectionId }
+              collectionId={ album.collectionId }
+              collectionName={ album.collectionName }
+              imgUrl={ album.artworkUrl100 }
+              artistName={ album.artistName }
+            />
+          )) }
+          { isLoading ? <Loading /> : inputButton }
         </div>
       </div>
     );
