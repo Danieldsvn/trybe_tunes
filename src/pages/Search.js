@@ -13,6 +13,8 @@ export default class Search extends React.Component {
       searchResult: undefined,
       artist: '',
       renderCard: false,
+      notFound: false,
+      hasAlbuns: false,
     };
   }
 
@@ -27,6 +29,8 @@ export default class Search extends React.Component {
     const artist = input;
     this.setState({
       isLoading: true,
+      notFound: false,
+      hasAlbuns: false,
     });
     const search = await searchAlbumsAPI(input);
     this.setState({
@@ -36,11 +40,20 @@ export default class Search extends React.Component {
       artist,
       renderCard: true,
     });
+    if (search.length === 0) {
+      this.setState({
+        notFound: true,
+      });
+    } else {
+      this.setState({
+        hasAlbuns: true,
+      });
+    }
   }
 
   render() {
     const { input, isLoading, searchResult,
-      artist, renderCard } = this.state;
+      artist, renderCard, notFound, hasAlbuns } = this.state;
     const minInput = 2;
     const inputButton = (
       <form>
@@ -63,12 +76,16 @@ export default class Search extends React.Component {
     const searchTitle = (
       <h3>{`Resultado de álbuns de: ${artist}`}</h3>
     );
+    const notFoundTitle = (
+      <h3>Nenhum álbum foi encontrado</h3>
+    );
     return (
       <div data-testid="page-search">
         <Header />
         <div>
           { isLoading ? <Loading /> : inputButton }
-          { renderCard && searchTitle }
+          { notFound && notFoundTitle }
+          { hasAlbuns && searchTitle }
           { renderCard && searchResult.map((album) => (
             <SearchCard
               key={ album.collectionId }
