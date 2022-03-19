@@ -12,28 +12,26 @@ export default class Header extends React.Component {
     };
   }
 
-  
+  componentDidMount() {
+    this.handleGetUser();
+  }
+
   handleGetUser = async () => {
     this.setState({
       isLoading: true,
     });
-    const userName = 'fezes';
-    console.log(`userName: ${userName}`);
+    const userName = await getUser();
     this.setState({
       isLoading: false,
-      userName: userName
+      userName: userName.name,
     });
-  }
-
-  componentDidMount() {
-    this.handleGetUser;
   }
 
   render() {
     const { isLoading, userName } = this.state;
     const links = (
-      <div>
-        <p data-testid="header-user-name">{ userName }</p>
+      <header>
+        <h2 data-testid="header-user-name">{ userName }</h2>
         <Link data-testid="link-to-search" to="/search">
           <p>Pesquisa</p>
         </Link>
@@ -43,7 +41,7 @@ export default class Header extends React.Component {
         <Link data-testid="link-to-profile" to="/profile">
           <p>Perfil</p>
         </Link>
-      </div>);
+      </header>);
     return (
       <div data-testid="header-component">
         { isLoading ? <Loading /> : links }
