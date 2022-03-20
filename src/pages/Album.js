@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import AlbumCard from '../components/AlbumCard';
 import Loading from '../components/Loading';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 export default class Album extends React.Component {
   constructor() {
@@ -13,6 +13,7 @@ export default class Album extends React.Component {
       isLoading: false,
       isLoadingFavorite: false,
       songsRequested: [],
+      favoritesSongs: [],
       artistName: '',
       albumName: '',
     };
@@ -20,6 +21,7 @@ export default class Album extends React.Component {
 
   componentDidMount() {
     this.handleGetMusics();
+    this.handleGetFavorites();
   }
 
   // https://backefront.com.br/obter-parametro-url-react/
@@ -38,7 +40,7 @@ export default class Album extends React.Component {
     });
   }
 
-  handleCheckbox = async (event) => {
+  handleSaveFavorites = async (event) => {
     if (event.target.checked) {
       this.setState({
         isLoadingFavorite: true,
@@ -49,11 +51,29 @@ export default class Album extends React.Component {
         isLoadingFavorite: false,
       });
     }
+
   }  
 
+  handleGetFavorites = async () => {
+    this.setState({
+      isLoadingFavorite: true,
+    });
+    const favSongsObj = await getFavoriteSongs();
+    this.setState({
+      favoritesSongs: favSongsObj,
+    })   
+  }
+
+  // handleCheckedFavorites = () => {
+  //   const { songsRequested, favoritesSongs } = this.state;
+    
+  // }
+
+  
   render() {
     const { isLoading, isLoadingFavorite,
-      songsRequested, artistName, albumName } = this.state;
+      songsRequested, artistName,
+       albumName, favoritesSongs } = this.state;
     return (
       <div data-testid="page-album">
         <Header />
@@ -65,10 +85,13 @@ export default class Album extends React.Component {
           <AlbumCard
             key={ song.trackId }
             trackId={ song.trackId }
-            handleFavorite={ this.handleCheckbox }
+            handleFavorite={ this.handleSaveFavorites }
             trackName={ song.trackName }
             previewUrl={ song.previewUrl }
             songObject={ JSON.stringify(song) }
+            isChecked={ favoritesSongs.some((favSong) => {
+              JSON.stringify(favSong) === JSON.stringify(song)
+            }) }
           />
         ))}
       </div>
