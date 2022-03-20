@@ -22,8 +22,9 @@ export default class Album extends React.Component {
     this.handleGetMusics();
   }
 
+  // https://backefront.com.br/obter-parametro-url-react/
   handleGetMusics = async () => {
-    const { match: { params: { id } } } = this.props;
+    const { match: { params: { id } } } = this.props; 
     this.setState({
       isLoading: true,
     });
@@ -48,13 +49,7 @@ export default class Album extends React.Component {
         isLoadingFavorite: false,
       });
     }
-  }
-
-  catchFavoriteSong = (song, event) => {
-    if (event.target.id === song.trackId) {
-      console.log(song);
-    }
-  }
+  }  
 
   render() {
     const { isLoading, isLoadingFavorite,
