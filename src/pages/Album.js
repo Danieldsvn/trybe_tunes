@@ -11,6 +11,7 @@ export default class Album extends React.Component {
     super();
     this.state = {
       isLoading: false,
+      isLoadingFavorite: false,
       songsRequested: [],
       artistName: '',
       albumName: '',
@@ -36,35 +37,43 @@ export default class Album extends React.Component {
     });
   }
 
-  // handleAddSong = async () => {
+  handleCheckbox = async (event) => {
+    if (event.target.checked) {
+      this.setState({
+        isLoadingFavorite: true,
+      });
+      const songObject = JSON.parse(event.target.id);
+      await addSong(songObject);
+      this.setState({
+        isLoadingFavorite: false,
+      });
+    }
+  }
 
-  // }
-
-  handleFavoriteCheck = async (song) => {
-    this.setState({
-      isLoading: true,
-    });
-    await addSong(song);
-    this.setState({
-      isLoading: false,
-    });
+  catchFavoriteSong = (song, event) => {
+    if (event.target.id === song.trackId) {
+      console.log(song);
+    }
   }
 
   render() {
-    const { isLoading, songsRequested, artistName, albumName } = this.state;
+    const { isLoading, isLoadingFavorite,
+      songsRequested, artistName, albumName } = this.state;
     return (
       <div data-testid="page-album">
         <Header />
         <hr />
         <h3 data-testid="artist-name">{ artistName }</h3>
         <h4 data-testid="album-name">{ albumName }</h4>
+        { isLoadingFavorite && <p>Carregando...</p> }
         { isLoading ? <Loading /> : songsRequested.map((song) => (
           <AlbumCard
             key={ song.trackId }
             trackId={ song.trackId }
-            // isChecked={ true }
+            handleFavorite={ this.handleCheckbox }
             trackName={ song.trackName }
             previewUrl={ song.previewUrl }
+            songObject={ JSON.stringify(song) }
           />
         ))}
       </div>
