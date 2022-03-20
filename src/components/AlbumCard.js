@@ -7,12 +7,12 @@ export default class AlbumCard extends React.Component {
     return (
       <div>
         <p>{ trackName }</p>
-        <label htmlFor='favoriteSong'>
-            Favorita
-          <input 
-           type="checkbox" 
-           data-testid={`checkbox-music-${trackId}`}
-           checked={ isChecked }
+        <label htmlFor="favoriteSong">
+          Favorita
+          <input
+            type="checkbox"
+            data-testid={ `checkbox-music-${trackId}` }
+            checked={ isChecked }
           />
         </label>
         <audio
@@ -36,5 +36,5 @@ AlbumCard.propTypes = {
   trackName: PropTypes.string.isRequired,
   trackId: PropTypes.string.isRequired,
   isChecked: PropTypes.bool.isRequired,
-  
+
 };

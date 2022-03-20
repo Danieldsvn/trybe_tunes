@@ -14,7 +14,6 @@ export default class Album extends React.Component {
       songsRequested: [],
       artistName: '',
       albumName: '',
-      isChecked: false,
     };
   }
 
@@ -27,26 +26,28 @@ export default class Album extends React.Component {
     this.setState({
       isLoading: true,
     });
-    const songs = await getMusics(id);
-    songs.shift(); // removeFirstArrayElement
+    const songsRequested = await getMusics(id);
+    const songs = songsRequested.slice(1); // removeFirstArrayElement
     this.setState({
       isLoading: false,
       songsRequested: songs,
-      artistName: songs[0].artistName,
-      albumName: songs[0].collectionName,
+      artistName: songsRequested[0].artistName,
+      albumName: songsRequested[0].collectionName,
     });
   }
 
   // handleAddSong = async () => {
-    
+
   // }
 
-  handleFavoriteCheck = async () => {
+  handleFavoriteCheck = async (song) => {
     this.setState({
-      isChecked: true,
       isLoading: true,
     });
-    const favoriteSong = await addSong()
+    await addSong(song);
+    this.setState({
+      isLoading: false,
+    });
   }
 
   render() {
@@ -61,7 +62,7 @@ export default class Album extends React.Component {
           <AlbumCard
             key={ song.trackId }
             trackId={ song.trackId }
-            isChecked={ true && this.handleFavoriteCheck }
+            // isChecked={ true }
             trackName={ song.trackName }
             previewUrl={ song.previewUrl }
           />
