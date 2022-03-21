@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import AlbumCard from '../components/AlbumCard';
 import Loading from '../components/Loading';
-import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
 
 export default class Album extends React.Component {
   constructor() {
@@ -41,12 +41,26 @@ export default class Album extends React.Component {
   }
 
   handleSaveFavorites = async (event) => {
-    if (event.target.checked) {
+    if (event.target.checked === true) {
       this.setState({
         isLoadingFavorite: true,
       });
       const songObject = JSON.parse(event.target.id);
       await addSong(songObject);
+      const favSongsObj = await getFavoriteSongs();
+      this.setState({
+        favoritesSongs: favSongsObj,
+      });
+      this.setState({
+        isLoadingFavorite: false,
+      });
+    }
+    if (event.target.checked === false) {
+      this.setState({
+        isLoadingFavorite: true,
+      });
+      const songObject = JSON.parse(event.target.id);
+      await removeSong(songObject);
       const favSongsObj = await getFavoriteSongs();
       this.setState({
         favoritesSongs: favSongsObj,
