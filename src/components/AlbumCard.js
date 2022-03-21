@@ -2,8 +2,40 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class AlbumCard extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      // checked: false,
+    };
+  }
+
+  componentDidMount() {
+
+  }
+
+  // componentDidUpdate() {
+  //   this.handleIschecked();
+  // }
+
+  // handleIschecked = () => {
+  //   const { favoritesSongs, song } = this.props;
+  //   console.log(favoritesSongs);
+  //   console.log(song);
+  //   const checkboxBool = favoritesSongs.some((favSong) => {
+  //     JSON.stringify(favSong) === JSON.stringify(song);
+  //   });
+  //   if (checkboxBool) {
+  //     this.setState({
+  //       checked: true,
+  //     });
+  //   }
+  // }
+
   render() {
-    const { trackName, previewUrl, trackId, handleFavorite, songObject, isChecked } = this.props;
+    const { trackName, previewUrl, trackId,
+      handleFavorite, songObject } = this.props;
+    // const { checked } = this.state;
+
     return (
       <div>
         <p>{ trackName }</p>
@@ -13,8 +45,8 @@ export default class AlbumCard extends React.Component {
             id={ songObject }
             type="checkbox"
             data-testid={ `checkbox-music-${trackId}` }
-            onChange={ handleFavorite }
-            checked={ isChecked }
+            onClick={ handleFavorite }
+            // checked= { checked }
           />
         </label>
         <audio
@@ -39,5 +71,5 @@ AlbumCard.propTypes = {
   trackId: PropTypes.number.isRequired,
   handleFavorite: PropTypes.func.isRequired,
   songObject: PropTypes.string.isRequired,
-  isChecked: PropTypes.bool.isRequired,
+  // isChecked: PropTypes.bool.isRequired,
 };

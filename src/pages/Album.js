@@ -20,13 +20,13 @@ export default class Album extends React.Component {
   }
 
   componentDidMount() {
-    this.handleGetMusics();
     this.handleGetFavorites();
+    this.handleGetMusics();
   }
 
   // https://backefront.com.br/obter-parametro-url-react/
   handleGetMusics = async () => {
-    const { match: { params: { id } } } = this.props; 
+    const { match: { params: { id } } } = this.props;
     this.setState({
       isLoading: true,
     });
@@ -47,33 +47,34 @@ export default class Album extends React.Component {
       });
       const songObject = JSON.parse(event.target.id);
       await addSong(songObject);
+      const favSongsObj = await getFavoriteSongs();
+      this.setState({
+        favoritesSongs: favSongsObj,
+      });
       this.setState({
         isLoadingFavorite: false,
       });
     }
-
-  }  
+  }
 
   handleGetFavorites = async () => {
     this.setState({
       isLoadingFavorite: true,
     });
     const favSongsObj = await getFavoriteSongs();
+    console.log(favSongsObj);
     this.setState({
       favoritesSongs: favSongsObj,
-    })   
+    });
+    this.setState({
+      isLoadingFavorite: false,
+    });
   }
 
-  // handleCheckedFavorites = () => {
-  //   const { songsRequested, favoritesSongs } = this.state;
-    
-  // }
-
-  
   render() {
     const { isLoading, isLoadingFavorite,
       songsRequested, artistName,
-       albumName, favoritesSongs } = this.state;
+      albumName, favoritesSongs } = this.state;
     return (
       <div data-testid="page-album">
         <Header />
@@ -89,9 +90,8 @@ export default class Album extends React.Component {
             trackName={ song.trackName }
             previewUrl={ song.previewUrl }
             songObject={ JSON.stringify(song) }
-            isChecked={ favoritesSongs.some((favSong) => {
-              JSON.stringify(favSong) === JSON.stringify(song)
-            }) }
+            song={ song }
+            favoritesSongs={ favoritesSongs }
           />
         ))}
       </div>
