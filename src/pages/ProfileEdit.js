@@ -20,7 +20,6 @@ export default class ProfileEdit extends React.Component {
 
   componentDidMount() {
     this.handleGetUser();
-    this.handleDisableButton();
   }
 
   handleGetUser = async () => {
@@ -35,6 +34,7 @@ export default class ProfileEdit extends React.Component {
       userDescription: user.description,
       userUrlImg: user.image,
     });
+    this.handleDisableButton();
   }
 
   handleInput = (event) => {

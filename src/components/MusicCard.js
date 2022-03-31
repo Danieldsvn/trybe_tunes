@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default class AlbumCard extends React.Component {
+export default class MusicCard extends React.Component {
   // constructor() {
   //   super();
   //   this.state = {
@@ -66,7 +66,7 @@ export default class AlbumCard extends React.Component {
   }
 }
 
-AlbumCard.propTypes = {
+MusicCard.propTypes = {
   previewUrl: PropTypes.string.isRequired,
   trackName: PropTypes.string.isRequired,
   trackId: PropTypes.number.isRequired,

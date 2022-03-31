@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
-import AlbumCard from '../components/AlbumCard';
+import MusicCard from '../components/MusicCard';
 import Loading from '../components/Loading';
 import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
 
@@ -98,7 +98,7 @@ export default class Album extends React.Component {
         <h4 data-testid="album-name">{ albumName }</h4>
         { isLoadingFavorite && <p>Carregando...</p> }
         { isLoading ? <Loading /> : songsRequested.map((song) => (
-          <AlbumCard
+          <MusicCard
             key={ song.trackId }
             trackId={ song.trackId }
             handleFavorite={ this.handleSaveFavorites }
