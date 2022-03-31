@@ -46,7 +46,7 @@ export default class Album extends React.Component {
       this.setState({
         isLoadingFavorite: true,
       });
-      const songObject = JSON.parse(event.target.id);
+      const songObject = JSON.parse(event.target.name);
       await addSong(songObject);
       const favSongsObj = await getFavoriteSongs();
       this.setState({
@@ -60,7 +60,7 @@ export default class Album extends React.Component {
       this.setState({
         isLoadingFavorite: true,
       });
-      const songObject = JSON.parse(event.target.id);
+      const songObject = JSON.parse(event.target.name);
       await removeSong(songObject);
       const favSongsObj = await getFavoriteSongs();
       this.setState({

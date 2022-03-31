@@ -38,6 +38,9 @@ export default class Profile extends React.Component {
     const { userName, userEmail, userDescription, userUrlImg, isLoading } = this.state;
     const profile = (
       <div>
+        <Link to="/profile/edit">
+          <h2>Editar perfil</h2>
+        </Link>
         <img
           data-testid="profile-image"
           src={ userUrlImg }
@@ -46,9 +49,6 @@ export default class Profile extends React.Component {
         <h3>{ userName }</h3>
         <p>{ userDescription }</p>
         <p>{ userEmail }</p>
-        <Link to="/profile/edit">
-          <p>Editar perfil</p>
-        </Link>
       </div>
     );
     return (

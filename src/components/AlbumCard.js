@@ -42,7 +42,8 @@ export default class AlbumCard extends React.Component {
         <label htmlFor="favoriteSong">
           Favorita
           <input
-            id={ songObject }
+            name={ songObject }
+            id="favoriteSong"
             type="checkbox"
             data-testid={ `checkbox-music-${trackId}` }
             onClick={ handleFavorite }
