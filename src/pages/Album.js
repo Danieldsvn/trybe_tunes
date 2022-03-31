@@ -42,12 +42,12 @@ export default class Album extends React.Component {
   }
 
   handleSaveFavorites = async (event) => {
-    if (event.target.checked === true) {
+    if (event.target.checked === false) {
       this.setState({
         isLoadingFavorite: true,
       });
       const songObject = JSON.parse(event.target.name);
-      await addSong(songObject);
+      await removeSong(songObject);
       const favSongsObj = await getFavoriteSongs();
       this.setState({
         favoritesSongs: favSongsObj,
@@ -56,12 +56,12 @@ export default class Album extends React.Component {
         isLoadingFavorite: false,
       });
     }
-    if (event.target.checked === false) {
+    if (event.target.checked === true) {
       this.setState({
         isLoadingFavorite: true,
       });
       const songObject = JSON.parse(event.target.name);
-      await removeSong(songObject);
+      await addSong(songObject);
       const favSongsObj = await getFavoriteSongs();
       this.setState({
         favoritesSongs: favSongsObj,

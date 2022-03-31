@@ -9,25 +9,23 @@ export default class MusicCard extends React.Component {
   //   };
   // }
 
-  componentDidMount() {
-    //  this.handleIschecked();
-  }
-
-  componentDidUpdate() {
-
-  }
+  // componentDidMount() {
+  //   this.handleIschecked();
+  // }
 
   // handleIschecked = () => {
   //   const { favoritesSongs, song } = this.props;
   //   console.log(favoritesSongs);
   //   console.log(song);
-  //   const checkboxBool = favoritesSongs.some((favSong) => {
-  //     JSON.stringify(favSong) === JSON.stringify(song);
-  //   });
-  //   if (checkboxBool) {
-  //     this.setState({
-  //       checked: true,
+  //   if (favoritesSongs) {
+  //     const checkboxBool = favoritesSongs.some((favSong) => {
+  //       JSON.stringify(favSong) === JSON.stringify(song);
   //     });
+  //     if (checkboxBool) {
+  //       this.setState({
+  //         checked: true,
+  //       });
+  //     }
   //   }
   // }
 
@@ -47,7 +45,7 @@ export default class MusicCard extends React.Component {
             type="checkbox"
             data-testid={ `checkbox-music-${trackId}` }
             onClick={ handleFavorite }
-            // checked= { checked }
+            // checked={ checked }
           />
         </label>
         <audio
