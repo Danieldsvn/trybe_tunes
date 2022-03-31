@@ -2,20 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class AlbumCard extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      // checked: false,
-    };
-  }
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     checked: false,
+  //   };
+  // }
 
   componentDidMount() {
-
+    //  this.handleIschecked();
   }
 
-  // componentDidUpdate() {
-  //   this.handleIschecked();
-  // }
+  componentDidUpdate() {
+
+  }
 
   // handleIschecked = () => {
   //   const { favoritesSongs, song } = this.props;

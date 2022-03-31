@@ -6,9 +6,9 @@ import AlbumCard from '../components/AlbumCard';
 export default class Favorites extends React.Component {
   constructor() {
     super();
-    this.state = {      
-      favoritesSongs: [], 
-      isLoadingFavorite: false,     
+    this.state = {
+      favoritesSongs: [],
+      isLoadingFavorite: false,
     };
   }
 

@@ -22,6 +22,7 @@ export default class Album extends React.Component {
   componentDidMount() {
     this.handleGetFavorites();
     this.handleGetMusics();
+    // this.handleSaveFavorites();
   }
 
   // https://backefront.com.br/obter-parametro-url-react/
@@ -76,7 +77,7 @@ export default class Album extends React.Component {
       isLoadingFavorite: true,
     });
     const favSongsObj = await getFavoriteSongs();
-    console.log(favSongsObj);
+    // console.log(favSongsObj);
     this.setState({
       favoritesSongs: favSongsObj,
     });
