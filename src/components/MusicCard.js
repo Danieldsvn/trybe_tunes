@@ -24,36 +24,36 @@ handleChange = async (song) => {
       favorited: false,
     });
     await removeSong(song);
-    this.setState({ isLoading: false });
+    this.setState({
+      isLoading: false,
+    });
   } else {
     this.setState({
       isLoading: true,
       favorited: true,
     });
     await addSong(song);
-    this.setState({ isLoading: false });
+    this.setState({
+      isLoading: false,
+    });
   }
 }
 
 handleIschecked = async () => {
   const { song } = this.props;
   const favoriteSongs = await getFavoriteSongs();
-  if (favoriteSongs) {
-    const isFavorite = favoriteSongs.some((fav) => fav.trackId === song.trackId);
-    this.setState({
-      favorited: isFavorite,
-    });
-  }
+  const isFavorite = favoriteSongs.some((fav) => fav.trackId === song.trackId);
+  this.setState({
+    favorited: isFavorite,
+  });
 }
 
 render() {
   const { trackName, previewUrl, trackId,
-    song } = this.props;
+    song, removeFavSong } = this.props;
   const { favorited, isLoading } = this.state;
-
-  return (
+  const songCard = (
     <div>
-      { isLoading && <Loading /> }
       <p>{ trackName }</p>
       <label htmlFor="favoriteSong">
         Favorita
@@ -62,6 +62,7 @@ render() {
           type="checkbox"
           data-testid={ `checkbox-music-${trackId}` }
           onChange={ () => this.handleChange(song) }
+          onClick={ removeFavSong }
           checked={ favorited }
         />
       </label>
@@ -78,6 +79,12 @@ render() {
       </audio>
     </div>
   );
+  return (
+    <div>
+      { isLoading && <Loading /> }
+      { songCard }
+    </div>
+  );
 }
 }
 
@@ -85,5 +92,6 @@ MusicCard.propTypes = {
   previewUrl: PropTypes.string.isRequired,
   trackName: PropTypes.string.isRequired,
   trackId: PropTypes.number.isRequired,
+  removeFavSong: PropTypes.func.isRequired,
   song: PropTypes.string.isRequired,
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import MusicCard from '../components/MusicCard';
-import { getFavoriteSongs } from '../services/favoriteSongsAPI';
+import { getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
 
 export default class Favorites extends React.Component {
   constructor() {
@@ -30,6 +30,17 @@ export default class Favorites extends React.Component {
     });
   }
 
+  handleRemoveSong = async (song) => {
+    this.setState({
+      isLoadingFavorite: true,
+    });
+    await removeSong(song);
+    this.setState({
+      isLoadingFavorite: false,
+    });
+    this.handleGetFavorites();
+  }
+
   render() {
     const { isLoadingFavorite, favoritesSongs } = this.state;
     return (
@@ -42,6 +53,7 @@ export default class Favorites extends React.Component {
             trackName={ song.trackName }
             previewUrl={ song.previewUrl }
             song={ song }
+            removeFavSong={ () => this.handleRemoveSong(song) }
           />
         ))}
       </div>
