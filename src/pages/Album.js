@@ -4,7 +4,6 @@ import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
 import Loading from '../components/Loading';
-import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
 
 export default class Album extends React.Component {
   constructor() {
@@ -13,16 +12,13 @@ export default class Album extends React.Component {
       isLoading: false,
       isLoadingFavorite: false,
       songsRequested: [],
-      favoritesSongs: [],
       artistName: '',
       albumName: '',
     };
   }
 
-  componentDidMount() {
-    this.handleGetFavorites();
-    this.handleGetMusics();
-    // this.handleSaveFavorites();
+  async componentDidMount() {
+    await this.handleGetMusics();
   }
 
   // https://backefront.com.br/obter-parametro-url-react/
@@ -41,55 +37,10 @@ export default class Album extends React.Component {
     });
   }
 
-  handleSaveFavorites = async (event) => {
-    if (event.target.checked === false) {
-      this.setState({
-        isLoadingFavorite: true,
-      });
-      const songObject = JSON.parse(event.target.name);
-      await removeSong(songObject);
-      const favSongsObj = await getFavoriteSongs();
-      this.setState({
-        favoritesSongs: favSongsObj,
-      });
-      this.setState({
-        isLoadingFavorite: false,
-      });
-    }
-    if (event.target.checked === true) {
-      this.setState({
-        isLoadingFavorite: true,
-      });
-      const songObject = JSON.parse(event.target.name);
-      await addSong(songObject);
-      const favSongsObj = await getFavoriteSongs();
-      this.setState({
-        favoritesSongs: favSongsObj,
-      });
-      this.setState({
-        isLoadingFavorite: false,
-      });
-    }
-  }
-
-  handleGetFavorites = async () => {
-    this.setState({
-      isLoadingFavorite: true,
-    });
-    const favSongsObj = await getFavoriteSongs();
-    // console.log(favSongsObj);
-    this.setState({
-      favoritesSongs: favSongsObj,
-    });
-    this.setState({
-      isLoadingFavorite: false,
-    });
-  }
-
   render() {
     const { isLoading, isLoadingFavorite,
       songsRequested, artistName,
-      albumName, favoritesSongs } = this.state;
+      albumName } = this.state;
     return (
       <div data-testid="page-album">
         <Header />
@@ -101,12 +52,9 @@ export default class Album extends React.Component {
           <MusicCard
             key={ song.trackId }
             trackId={ song.trackId }
-            handleFavorite={ this.handleSaveFavorites }
             trackName={ song.trackName }
             previewUrl={ song.previewUrl }
-            songObject={ JSON.stringify(song) }
             song={ song }
-            favoritesSongs={ favoritesSongs }
           />
         ))}
       </div>
