@@ -40,4 +40,4 @@ Os arquivos dos diretórios `.src/components`c `.src/pages` e o arquivo `.src/Ap
 
 ## Como visualizar:
 
-Para executar o projeto faça o clone do repositório, entre na pasta do projeto execute o comando `npm start` para visualizar a aplicação no navegador Chrome!
+Para executar o projeto faça o clone do repositório, entre na pasta do projeto execute o comando `npm install` e depois `npm start` para visualizar a aplicação no navegador Chrome!
